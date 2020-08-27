@@ -5,18 +5,31 @@ public class Duke {
 
     public static String indent = "     ";
 
-    public static ArrayList<String> taskList = new ArrayList<String>();
+    public static ArrayList<Task> allTasks = new ArrayList<>();
 
-    public static void printTaskList() {
-        for (int i = 0; i < taskList.size(); i++) {
-            System.out.println(indent + (i + 1) + ". " + taskList.get(i));
+    public static void printAllTasks() {
+        for (int i = 0; i < allTasks.size(); i++) {
+            String symbol = allTasks.get(i).getIsDone() ? "\u2713" : "\u2717" ;
+            System.out.println(indent + (i + 1) + ". [" + symbol + "] " + allTasks.get(i).getTask());
         }
     }
 
-    public static void addTask(String task) {
-        if (!task.isEmpty()) {
-            taskList.add(task);
-            System.out.println(indent + "added: " + task);
+    public static void updateTaskAsDone(int num) {
+        if (num >= allTasks.size()) {
+            System.out.println(indent + "Sorry, this task does not exist!");
+        }
+        else {
+            allTasks.get(num - 1).setAsDone();
+            System.out.println(indent + "Nice! I've marked this task as done:");
+            System.out.println(indent + "[\u2713] " + allTasks.get(num - 1).getTask());
+        }
+    }
+
+    public static void addTask(String input) {
+        if (!input.isEmpty()) {
+            Task newTask = new Task(input);
+            allTasks.add(newTask);
+            System.out.println(indent + "added: " + input);
         }
         else {
             System.out.println(indent + "No text specified.");
@@ -31,8 +44,12 @@ public class Duke {
         String input = line.nextLine();
 
         while(!input.toLowerCase().equals("bye")) {
-            if (input.toLowerCase().equals("list")) {
-                printTaskList();
+            String[] splitInput = input.split(" ");
+            if (splitInput[0].toLowerCase().equals("list")) {
+                printAllTasks();
+            }
+            else if (splitInput[0].toLowerCase().equals("done")) {
+                updateTaskAsDone(Integer.parseInt(splitInput[1]));
             }
             else {
                 addTask(input);
