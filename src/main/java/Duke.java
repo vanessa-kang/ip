@@ -1,8 +1,27 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Duke {
 
     public static String indent = "     ";
+
+    public static ArrayList<String> taskList = new ArrayList<String>();
+
+    public static void printTaskList() {
+        for (int i = 0; i < taskList.size(); i++) {
+            System.out.println(indent + (i + 1) + ". " + taskList.get(i));
+        }
+    }
+
+    public static void addTask(String task) {
+        if (!task.isEmpty()) {
+            taskList.add(task);
+            System.out.println(indent + "added: " + task);
+        }
+        else {
+            System.out.println(indent + "No text specified.");
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -12,7 +31,12 @@ public class Duke {
         String input = line.nextLine();
 
         while(!input.toLowerCase().equals("bye")) {
-            System.out.println(indent + input);
+            if (input.toLowerCase().equals("list")) {
+                printTaskList();
+            }
+            else {
+                addTask(input);
+            }
             input = line.nextLine();
         }
 
