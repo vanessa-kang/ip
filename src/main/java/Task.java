@@ -2,22 +2,30 @@ public class Task {
     private boolean isDone;
     private String taskDesc;
 
-    //constructor
     public Task(String desc) {
         this.isDone = false;
-        this.taskDesc = desc;
+        setTask(desc);
     }
 
-    public void setAsDone() {
-        this.isDone = true;
+    public void setTask(String desc) {
+        taskDesc = desc;
     }
 
     public String getTask() {
         return this.taskDesc;
     }
 
+    public void setIsDone(boolean val) {
+        this.isDone = val;
+    }
+
     public boolean getIsDone() {
         return this.isDone;
+    }
+
+    public String toString() {
+        String symbol = isDone? "\u2713" : "\u2717";
+        return "[" + symbol + "] " + taskDesc;
     }
 
 }
