@@ -47,9 +47,6 @@ public class Duke {
         } catch (IndexOutOfBoundsException e) {
             System.out.println(INDENT + "Sorry, this task does not exist!");
         }
-//        catch (NumberFormatException e) {
-//            System.out.println(INDENT + "Sorry, that is not a valid task number!");
-//        }
     }
 
     public static void addTask(String[] inputArr) {
@@ -125,7 +122,6 @@ public class Duke {
                     } catch (NumberFormatException e) {
                         System.out.println(INDENT + "Sorry, that is not a valid input!");
                     }
-
                     break;
                 }
                 case("todo"):
