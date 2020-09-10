@@ -38,14 +38,13 @@ public class Duke {
     }
 
     // mark a Task as done
-    public static void markTaskAsDone(int num) {
-        // TODO: handle ArrayOutOfBounds exception
-        if (num > allTasks.size() || num == 0) {
-            System.out.println(INDENT + "Sorry, this task does not exist!");
-        } else {
+    public static void markTaskAsDone (int num) {
+        try {
             allTasks.get(num - 1).setIsDone(true);
             System.out.println(INDENT + "Nice! I've marked this task as done:");
             System.out.println(INDENT + "[" + TICK + "] " + allTasks.get(num - 1).getTask());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(INDENT + "Sorry, this task does not exist!");
         }
     }
 
@@ -114,7 +113,13 @@ public class Duke {
                     break;
                 }
                 case("done"): {
-                    markTaskAsDone(Integer.parseInt(inputArr[1]));
+                    try {
+                        markTaskAsDone(Integer.parseInt(inputArr[1]));
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println(INDENT + "Please input a number!");
+                    } catch (NumberFormatException e) {
+                        System.out.println(INDENT + "Sorry, that is not a valid input!");
+                    }
                     break;
                 }
                 case("todo"):
