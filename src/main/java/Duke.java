@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class Duke {
 
-    public static String indent = "     ";
+    public static final String INDENT = "     ";
+    public static final String TICK = "\u2713";
+    public static final String CROSS = "\u2717";
 
     // init array of Task objects
     public static ArrayList<Task> allTasks = new ArrayList<>();
@@ -12,39 +14,38 @@ public class Duke {
     // helper function to convert string array to string
     // not just string rep like what Arrays.toString(strArr) does
     public static String convertToString(String[] strArr) {
-//        StringBuilder builder = new StringBuilder();
-//        for(String s : strArr) {
-//            builder.append(s + " ");
-//        }
-//        return builder.toString();
         return String.join(" ", strArr);
     }
 
     // print array of Task objects
     public static void printAllTasks() {
+        if (allTasks.size() == 0) {
+            System.out.println(INDENT + "There are currently no tasks in list!");
+            return;
+        }
         for (int i = 0; i < allTasks.size(); i++) {
-            System.out.println(indent + (i + 1) + ". " + allTasks.get(i));
+            System.out.println(INDENT + (i + 1) + ". " + allTasks.get(i));
         }
     }
 
     // print newly added task
     public static void printNewlyAddedTask(Task task) {
-        System.out.println(indent + "Got it. I've added this task: "
-                + System.lineSeparator()
-                + indent + indent + task
-                + System.lineSeparator()
-                + indent + "Now you have " + allTasks.size() + " tasks in the list.");
+        System.out.println(INDENT + "Got it. I've added this task: "
+                           + System.lineSeparator()
+                           + INDENT + INDENT + task
+                           + System.lineSeparator()
+                           + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
     }
 
     // mark a Task as done
     public static void markTaskAsDone(int num) {
+        // TODO: handle ArrayOutOfBounds exception
         if (num > allTasks.size() || num == 0) {
-            System.out.println(indent + "Sorry, this task does not exist!");
-        }
-        else {
+            System.out.println(INDENT + "Sorry, this task does not exist!");
+        } else {
             allTasks.get(num - 1).setIsDone(true);
-            System.out.println(indent + "Nice! I've marked this task as done:");
-            System.out.println(indent + "[\u2713] " + allTasks.get(num - 1).getTask());
+            System.out.println(INDENT + "Nice! I've marked this task as done:");
+            System.out.println(INDENT + "[" + TICK + "] " + allTasks.get(num - 1).getTask());
         }
     }
 
@@ -52,14 +53,19 @@ public class Duke {
 
         /* TODO: implement error checking for user input
            cases:
-           - input is completely empty
-           - inputArr[0] == _todo/deadline/event, but rest of the input is completely empty
+           - inputArr[0] == _todo/deadline/event, but description field is empty
            - deadline/event does not have "/by" or "/at"
         */
+
+        if (inputArr.length == 1) {
+            System.out.println(INDENT + "Oops, the description field cannot be empty!");
+            return;
+        }
 
         Task newObj;
 
         switch(inputArr[0]) {
+            //TODO: refactor this part
             case("todo"): {
                 String[] descArr = Arrays.copyOfRange(inputArr, 1, inputArr.length);
                 newObj = new Todo((convertToString(descArr)));
@@ -90,7 +96,7 @@ public class Duke {
 
     public static void main(String[] args) {
 
-        System.out.println(indent + "Hello! I'm Duke\n" + indent + "What can I do for you?\n");
+        System.out.println(INDENT + "Hello! I'm Duke\n" + INDENT + "What can I do for you?\n");
 
         Scanner line = new Scanner(System.in);
         String input = line.nextLine();
@@ -111,16 +117,21 @@ public class Duke {
                     markTaskAsDone(Integer.parseInt(inputArr[1]));
                     break;
                 }
-                default: {
+                case("todo"):
+                case("deadline"):
+                case("event"): {
                     addTask(inputArr);
                     break;
+                }
+                default: {
+                    System.out.println(INDENT + "Oops, I don't understand! D:");
                 }
             }
 
             input = line.nextLine();
         }
 
-        System.out.println(indent + "Bye. Hope to see you again soon!");
+        System.out.println(INDENT + "Bye. Hope to see you again soon!");
 
     }
 }

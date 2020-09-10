@@ -24,7 +24,7 @@ public class Task {
     }
 
     public String toString() {
-        String symbol = isDone? "\u2713" : "\u2717";
+        String symbol = isDone? Duke.TICK : Duke.CROSS;
         return "[" + symbol + "] " + taskDesc;
     }
 

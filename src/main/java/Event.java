@@ -12,12 +12,12 @@ public class Event extends Task {
         this.at = at;
     }
 
-    // override method
+    @Override
     public String getTask() {
         return super.getTask() + " (at: " + at + ")";
     }
 
-    // override method
+    @Override
     public String toString() {
         return "[E]" + super.toString() + " (at: " + at + ")";
     }
