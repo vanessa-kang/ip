@@ -1,6 +1,12 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 public class Duke {
 
@@ -102,15 +108,104 @@ public class Duke {
     // helper function to print newly added task
     public static void printNewlyAddedTask(Task task) {
         System.out.println(INDENT + "Got it. I've added this task: "
-                + System.lineSeparator()
-                + INDENT + INDENT + task
-                + System.lineSeparator()
-                + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
+                           + System.lineSeparator()
+                           + INDENT + INDENT + task
+                           + System.lineSeparator()
+                           + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
     }
 
 
+    public static final String dirPath = "./data";
+    public static final String dataFilePath = "./data/duke.txt";
 
-    public static void main(String[] args) {
+    public static void readFileContents(String filePath) throws FileNotFoundException {
+        FileReader fr = new FileReader(filePath);
+        Scanner s = new Scanner(fr);
+        while (s.hasNext()) {
+            String[] strArr = s.nextLine().split(">");
+//            for (int i = 0; i < strArr.length; i++) {
+//                strArr[i] = strArr[i].trim();
+//            }
+
+            // strArr[0] - type of Task (T/D/E)
+            // strArr[1] - whether task isDone (0/1)
+            // strArr[2] - task description
+            // strArr[3] - by/at (for deadline/event only)
+
+            Task newTask;
+
+            switch(strArr[0]) {
+                case ("T"): {
+                    newTask = new Todo(strArr[2]);
+                    break;
+                }
+                case ("D"): {
+                    newTask = new Deadline(strArr[2], strArr[3]);
+                    break;
+                }
+                case ("E"): {
+                    newTask = new Event(strArr[2], strArr[3]);
+                    break;
+                }
+                default:
+                    newTask = new Todo("default");
+            }
+            newTask.setIsDone(strArr[1].equals("1"));
+            allTasks.add(newTask);
+        }
+    }
+
+    private static void writeToFile(String filePath) throws IOException {
+        FileWriter fw = new FileWriter(filePath, false); //overwrite file content
+
+        for (int i = 0; i < allTasks.size(); i++) {
+
+            Task tmpTask = allTasks.get(i);
+            String strToWrite = "";
+
+            String taskType = (tmpTask instanceof Todo? "T" :
+                               tmpTask instanceof Deadline? "D" : "E");
+            String isDone = (tmpTask.getIsDone()? "1" : "0");
+
+            if (taskType.equals("T")) {
+                String taskDesc = tmpTask.getTask();
+                strToWrite = String.join(">", taskType, isDone, taskDesc);
+            } else {
+                String posString = "";
+                String addInfo = "";
+
+                if (taskType.equals("D")) {
+                    posString = " (by:";
+                    addInfo = ((Deadline) tmpTask).getBy();
+                } else if (taskType.equals("E")) {
+                    posString = " (at:";
+                    addInfo = ((Event) tmpTask).getAt();
+
+                }
+                int pos = tmpTask.getTask().indexOf(posString);
+                String taskDesc = tmpTask.getTask().substring(0, pos);
+                strToWrite = String.join(">", taskType, isDone, taskDesc, addInfo);
+            }
+            fw.write(strToWrite + System.lineSeparator());
+        }
+        fw.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        File fDir = new File (dirPath);
+        File fTxt = new File (dataFilePath);
+
+        try {
+            readFileContents(dataFilePath);
+        } catch (FileNotFoundException e) {
+            if (!fDir.exists()) {
+                fDir.mkdir();
+            }
+            if (!fTxt.exists()) {
+                fTxt.createNewFile();
+            }
+        }
 
         System.out.println(INDENT + "Hello! I'm Duke\n" + INDENT + "What can I do for you?\n");
 
@@ -159,10 +254,10 @@ public class Duke {
                     System.out.println(INDENT + "Oops, I don't understand! D:");
                 }
             }
-
             input = line.nextLine();
         }
 
+        writeToFile(dataFilePath);
         System.out.println(INDENT + "Bye. Hope to see you again soon!");
 
     }
