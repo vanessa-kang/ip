@@ -11,43 +11,7 @@ public class Duke {
     // init array of Task objects
     public static ArrayList<Task> allTasks = new ArrayList<>();
 
-    // helper function to convert string array to string
-    // not just string rep like what Arrays.toString(strArr) does
-    public static String convertToString(String[] strArr) {
-        return String.join(" ", strArr);
-    }
-
-    // print array of Task objects
-    public static void printAllTasks() {
-        if (allTasks.size() == 0) {
-            System.out.println(INDENT + "There are currently no tasks in list!");
-            return;
-        }
-        for (int i = 0; i < allTasks.size(); i++) {
-            System.out.println(INDENT + (i + 1) + ". " + allTasks.get(i));
-        }
-    }
-
-    // print newly added task
-    public static void printNewlyAddedTask(Task task) {
-        System.out.println(INDENT + "Got it. I've added this task: "
-                           + System.lineSeparator()
-                           + INDENT + INDENT + task
-                           + System.lineSeparator()
-                           + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
-    }
-
-    // mark a Task as done
-    public static void markTaskAsDone (int num) {
-        try {
-            allTasks.get(num - 1).setIsDone(true);
-            System.out.println(INDENT + "Nice! I've marked this task as done:");
-            System.out.println(INDENT + "[" + TICK + "] " + allTasks.get(num - 1).getTask());
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(INDENT + "Sorry, this task does not exist!");
-        }
-    }
-
+    // add task to allTasks
     public static void addTask(String[] inputArr) {
 
         /* TODO: implement error checking for user input
@@ -92,6 +56,59 @@ public class Duke {
         printNewlyAddedTask(newObj);
     }
 
+    // delete task from allTasks
+    public static void deleteTask(int num) {
+        try {
+            Task tmpTask = allTasks.get(num - 1);
+            allTasks.remove(num-1);
+            System.out.println(INDENT + "Noted. I've removed this task: "
+                               + System.lineSeparator()
+                               + INDENT + INDENT + tmpTask
+                               + System.lineSeparator()
+                               + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(INDENT + "Sorry, this task does not exist!");
+        }
+    }
+
+    // mark a Task as done
+    public static void markTaskAsDone (int num) {
+        try {
+            allTasks.get(num - 1).setIsDone(true);
+            System.out.println(INDENT + "Nice! I've marked this task as done:");
+            System.out.println(INDENT + "[" + TICK + "] " + allTasks.get(num - 1).getTask());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(INDENT + "Sorry, this task does not exist!");
+        }
+    }
+
+    // print array of Task objects
+    public static void printAllTasks() {
+        if (allTasks.size() == 0) {
+            System.out.println(INDENT + "There are currently no tasks in list!");
+            return;
+        }
+        for (int i = 0; i < allTasks.size(); i++) {
+            System.out.println(INDENT + (i + 1) + ". " + allTasks.get(i));
+        }
+    }
+
+    // helper function to convert string array to string
+    // not just string rep like what Arrays.toString(strArr) does
+    public static String convertToString(String[] strArr) {
+        return String.join(" ", strArr);
+    }
+
+    // helper function to print newly added task
+    public static void printNewlyAddedTask(Task task) {
+        System.out.println(INDENT + "Got it. I've added this task: "
+                + System.lineSeparator()
+                + INDENT + INDENT + task
+                + System.lineSeparator()
+                + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
+    }
+
+
 
     public static void main(String[] args) {
 
@@ -100,7 +117,7 @@ public class Duke {
         Scanner line = new Scanner(System.in);
         String input = line.nextLine();
 
-        String userCmd = "";
+        String userCmd;
 
         while(!input.toLowerCase().equals("bye")) {
             String[] inputArr = input.split(" ");
@@ -108,8 +125,20 @@ public class Duke {
             userCmd = inputArr[0].toLowerCase();
 
             switch (userCmd) {
-                case("list"): {
-                    printAllTasks();
+                case("todo"):
+                case("deadline"):
+                case("event"): {
+                    addTask(inputArr);
+                    break;
+                }
+                case("delete"): {
+                    try {
+                        deleteTask(Integer.parseInt(inputArr[1]));
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        System.out.println(INDENT + "Please input a number!");
+                    } catch (NumberFormatException e) {
+                        System.out.println(INDENT + "Sorry, that is not a valid input!");
+                    }
                     break;
                 }
                 case("done"): {
@@ -122,10 +151,8 @@ public class Duke {
                     }
                     break;
                 }
-                case("todo"):
-                case("deadline"):
-                case("event"): {
-                    addTask(inputArr);
+                case("list"): {
+                    printAllTasks();
                     break;
                 }
                 default: {
