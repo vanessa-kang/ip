@@ -1,10 +1,12 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 
 public class Duke {
 
@@ -98,8 +100,8 @@ public class Duke {
     }
 
 
-
-    public static final String dataFilePath = "data/duke.txt";
+    public static final String dirPath = "./data";
+    public static final String dataFilePath = "./data/duke.txt";
 
     public static void readFileContents(String filePath) throws FileNotFoundException {
         FileReader fr = new FileReader(filePath);
@@ -176,7 +178,19 @@ public class Duke {
 
     public static void main(String[] args) throws IOException {
 
-        readFileContents(dataFilePath);
+        File fDir = new File (dirPath);
+        File fTxt = new File (dataFilePath);
+
+        try {
+            readFileContents(dataFilePath);
+        } catch (FileNotFoundException e) {
+            if (!fDir.exists()) {
+                fDir.mkdir();
+            }
+            if (!fTxt.exists()) {
+                fTxt.createNewFile();
+            }
+        }
 
         System.out.println(INDENT + "Hello! I'm Duke\n" + INDENT + "What can I do for you?\n");
 
