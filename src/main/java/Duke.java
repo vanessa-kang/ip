@@ -1,6 +1,10 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class Duke {
 
@@ -11,43 +15,7 @@ public class Duke {
     // init array of Task objects
     public static ArrayList<Task> allTasks = new ArrayList<>();
 
-    // helper function to convert string array to string
-    // not just string rep like what Arrays.toString(strArr) does
-    public static String convertToString(String[] strArr) {
-        return String.join(" ", strArr);
-    }
-
-    // print array of Task objects
-    public static void printAllTasks() {
-        if (allTasks.size() == 0) {
-            System.out.println(INDENT + "There are currently no tasks in list!");
-            return;
-        }
-        for (int i = 0; i < allTasks.size(); i++) {
-            System.out.println(INDENT + (i + 1) + ". " + allTasks.get(i));
-        }
-    }
-
-    // print newly added task
-    public static void printNewlyAddedTask(Task task) {
-        System.out.println(INDENT + "Got it. I've added this task: "
-                           + System.lineSeparator()
-                           + INDENT + INDENT + task
-                           + System.lineSeparator()
-                           + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
-    }
-
-    // mark a Task as done
-    public static void markTaskAsDone (int num) {
-        try {
-            allTasks.get(num - 1).setIsDone(true);
-            System.out.println(INDENT + "Nice! I've marked this task as done:");
-            System.out.println(INDENT + "[" + TICK + "] " + allTasks.get(num - 1).getTask());
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(INDENT + "Sorry, this task does not exist!");
-        }
-    }
-
+    // add task to allTasks
     public static void addTask(String[] inputArr) {
 
         /* TODO: implement error checking for user input
@@ -92,8 +60,123 @@ public class Duke {
         printNewlyAddedTask(newObj);
     }
 
+    // mark a Task as done
+    public static void markTaskAsDone (int num) {
+        try {
+            allTasks.get(num - 1).setIsDone(true);
+            System.out.println(INDENT + "Nice! I've marked this task as done:");
+            System.out.println(INDENT + "[" + TICK + "] " + allTasks.get(num - 1).getTask());
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(INDENT + "Sorry, this task does not exist!");
+        }
+    }
 
-    public static void main(String[] args) {
+    // print array of Task objects
+    public static void printAllTasks() {
+        if (allTasks.size() == 0) {
+            System.out.println(INDENT + "There are currently no tasks in list!");
+            return;
+        }
+        for (int i = 0; i < allTasks.size(); i++) {
+            System.out.println(INDENT + (i + 1) + ". " + allTasks.get(i));
+        }
+    }
+
+    // helper function to convert string array to string
+    // not just string rep like what Arrays.toString(strArr) does
+    public static String convertToString(String[] strArr) {
+        return String.join(" ", strArr);
+    }
+
+    // helper function to print newly added task
+    public static void printNewlyAddedTask(Task task) {
+        System.out.println(INDENT + "Got it. I've added this task: "
+                           + System.lineSeparator()
+                           + INDENT + INDENT + task
+                           + System.lineSeparator()
+                           + INDENT + "Now you have " + allTasks.size() + " tasks in the list.");
+    }
+
+
+
+    public static final String dataFilePath = "data/duke.txt";
+
+    public static void readFileContents(String filePath) throws FileNotFoundException {
+        FileReader fr = new FileReader(filePath);
+        Scanner s = new Scanner(fr);
+        while (s.hasNext()) {
+            String[] strArr = s.nextLine().split(">");
+//            for (int i = 0; i < strArr.length; i++) {
+//                strArr[i] = strArr[i].trim();
+//            }
+
+            // strArr[0] - type of Task (T/D/E)
+            // strArr[1] - whether task isDone (0/1)
+            // strArr[2] - task description
+            // strArr[3] - by/at (for deadline/event only)
+
+            Task newTask;
+
+            switch(strArr[0]) {
+                case ("T"): {
+                    newTask = new Todo(strArr[2]);
+                    break;
+                }
+                case ("D"): {
+                    newTask = new Deadline(strArr[2], strArr[3]);
+                    break;
+                }
+                case ("E"): {
+                    newTask = new Event(strArr[2], strArr[3]);
+                    break;
+                }
+                default:
+                    newTask = new Todo("default");
+            }
+            newTask.setIsDone(strArr[1].equals("1"));
+            allTasks.add(newTask);
+        }
+    }
+
+    private static void writeToFile(String filePath) throws IOException {
+        FileWriter fw = new FileWriter(filePath, false); //overwrite file content
+
+        for (int i = 0; i < allTasks.size(); i++) {
+
+            Task tmpTask = allTasks.get(i);
+            String strToWrite = "";
+
+            String taskType = (tmpTask instanceof Todo? "T" :
+                               tmpTask instanceof Deadline? "D" : "E");
+            String isDone = (tmpTask.getIsDone()? "1" : "0");
+
+            if (taskType.equals("T")) {
+                String taskDesc = tmpTask.getTask();
+                strToWrite = String.join(">", taskType, isDone, taskDesc);
+            } else {
+                String posString = "";
+                String addInfo = "";
+
+                if (taskType.equals("D")) {
+                    posString = " (by:";
+                    addInfo = ((Deadline) tmpTask).getBy();
+                } else if (taskType.equals("E")) {
+                    posString = " (at:";
+                    addInfo = ((Event) tmpTask).getAt();
+
+                }
+                int pos = tmpTask.getTask().indexOf(posString);
+                String taskDesc = tmpTask.getTask().substring(0, pos);
+                strToWrite = String.join(">", taskType, isDone, taskDesc, addInfo);
+            }
+            fw.write(strToWrite + System.lineSeparator());
+        }
+        fw.close();
+    }
+
+    public static void main(String[] args) throws IOException {
+
+        readFileContents(dataFilePath);
 
         System.out.println(INDENT + "Hello! I'm Duke\n" + INDENT + "What can I do for you?\n");
 
@@ -108,8 +191,10 @@ public class Duke {
             userCmd = inputArr[0].toLowerCase();
 
             switch (userCmd) {
-                case("list"): {
-                    printAllTasks();
+                case("todo"):
+                case("deadline"):
+                case("event"): {
+                    addTask(inputArr);
                     break;
                 }
                 case("done"): {
@@ -122,10 +207,8 @@ public class Duke {
                     }
                     break;
                 }
-                case("todo"):
-                case("deadline"):
-                case("event"): {
-                    addTask(inputArr);
+                case("list"): {
+                    printAllTasks();
                     break;
                 }
                 default: {
@@ -136,6 +219,7 @@ public class Duke {
             input = line.nextLine();
         }
 
+        writeToFile(dataFilePath);
         System.out.println(INDENT + "Bye. Hope to see you again soon!");
 
     }
