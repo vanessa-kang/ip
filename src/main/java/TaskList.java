@@ -90,4 +90,24 @@ public class TaskList {
         return String.join(" ", strArr);
     }
 
+    // find tasks that contain a certain keyword
+    public static void findTask(String keyword) {
+        int count = 1;
+        boolean headerFlag = true;
+        for (Task task: allTasks) {
+            String strToSearch = task.getTask().toLowerCase();
+            if (strToSearch.contains(keyword.toLowerCase())) {
+                if (headerFlag) {
+                    System.out.println(Ui.INDENT + "Here are the matching tasks in your list:");
+                    headerFlag = false;
+                }
+                System.out.println(Ui.INDENT + count + ". " + task);
+                count++;
+            }
+        }
+        if (headerFlag) {
+            System.out.println(Ui.INDENT + "There are no matching tasks :(");
+        }
+    }
+
 }

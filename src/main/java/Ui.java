@@ -77,8 +77,12 @@ public class Ui {
         System.out.println(INDENT + "Sorry, you did not specify a " + tmp + "!");
     }
 
-    public static void printNoNumberWarning() {
-        System.out.println(INDENT + "Please input a number!");
+    public static void printMissingArgWarning(String key) {
+        if(key.equals("num")) {
+            System.out.println(INDENT + "Please input a number!");
+        } else if(key.equals("str")) {
+            System.out.println(INDENT + "Please input a search term!");
+        }
     }
 
     public static void printInvalidInputWarning() {
