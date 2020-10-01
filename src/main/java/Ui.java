@@ -5,7 +5,7 @@ public class Ui {
     public static final String CROSS = "\u2717";
 
 
-    /* LOAD DATA FROM FILE */
+    /* FILE IO-RELATED MESSAGES */
 
     public static void printLoadingFromFile() {
         System.out.println(INDENT + "Loading tasks from file...");
@@ -14,6 +14,18 @@ public class Ui {
     public static void printLoadSuccess() {
         System.out.println(INDENT + "List successfully loaded! :)");
     }
+
+    public static void printSavingToFile() {
+        System.out.println(INDENT + "Saving tasks to file...");
+    }
+
+    public static void printSaveSuccess() {
+        System.out.println(INDENT + "Tasks successfully saved! :)");
+    }
+
+
+
+    /* FILE IO-RELATED WARNINGS */
 
     public static void printLoadError() {
         System.out.println(INDENT + "Oops, could not load from file! :(\n"
@@ -24,13 +36,37 @@ public class Ui {
         System.out.println(INDENT + "Oops, could not make a new file!");
     }
 
+    public static void printSaveError() {
+        System.out.println(INDENT + "Shoots, an error occurred while saving your task data. :(");
+    }
 
-    /* WELCOME MESSAGE */
+
+
+    /* UTILITY MESSAGES */
 
     public static void printWelcomeMessage() {
         System.out.println(INDENT + "Hello! I'm Duke\n"
                            + INDENT + "What can I do for you?");
     }
+
+    public static void printGoodbyeMessage() {
+        System.out.println(INDENT + "Bye. Hope to see you again soon!");
+    }
+
+    public static void printCommandList() {
+        System.out.println(       INDENT + "Currently available commands:" + 
+                           "\n" + INDENT + "• todo <task description>" + " ------------------ " + "Add Todo" +
+                           "\n" + INDENT + "• deadline <task description> /by <date>" + " --- " + "Add Deadline" +
+                           "\n" + INDENT + "• event <task description> /by <date>" + " ------ " + "Add Event" +
+                           "\n" + INDENT + "• done <task number>" + " ----------------------- " + "Mark a task as done" +
+                           "\n" + INDENT + "• delete <task number>" + " --------------------- " + "Delete a task" +
+                           "\n" + INDENT + "• list" + " ------------------------------------- " + "List all tasks" +
+                           "\n" + INDENT + "• find <keyword>" + " --------------------------- " + "Find tasks containing a keyword" +
+                           "\n" + INDENT + "• bye" + " -------------------------------------- " + "Save and exit program"
+        
+                          );
+    }
+
 
 
     /* TASK-RELATED MESSAGES */
@@ -55,7 +91,7 @@ public class Ui {
         if (action.equals("done")) {
             System.out.println(INDENT + "Nice! I've marked this task as done:"
                                + System.lineSeparator()
-                               + INDENT + "[" + TICK + "] " + task);
+                               + INDENT + task);
         } else {
             String desc = action.equals("add") ? "Got it. I've added this task: " : "Noted. I've removed this task: ";
             System.out.println(INDENT + desc
@@ -69,6 +105,10 @@ public class Ui {
     public static void printMatchesFoundHeader() {
         System.out.println(Ui.INDENT + "Here are the matching tasks in your list:");
     }
+
+
+
+    /* TASK-RELATED WARNINGS */
 
     public static void printEmptyDescWarning() {
         System.out.println(INDENT + "Oops, the description field cannot be empty!");
@@ -97,27 +137,6 @@ public class Ui {
 
     public static void printNoMatchingTasksWarning() {
         System.out.println(Ui.INDENT + "There are no matching tasks :(");
-    }
-
-    /* WRITE DATA TO FILE*/
-
-    public static void printSavingToFile() {
-        System.out.println(INDENT + "Saving tasks to file...");
-    }
-
-    public static void printSaveSuccess() {
-        System.out.println(INDENT + "Tasks successfully saved! :)");
-    }
-
-    public static void printSaveError() {
-        System.out.println(INDENT + "Shoots, an error occurred while saving your task data. :(");
-    }
-
-
-    /* GOODBYE MESSAGE */
-
-    public static void printGoodbyeMessage() {
-        System.out.println(INDENT + "Bye. Hope to see you again soon!");
     }
 
 }

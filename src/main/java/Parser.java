@@ -60,6 +60,10 @@ public class Parser {
                     }
                     break;
                 }
+                case("help"): {
+                    Ui.printCommandList();
+                    break;
+                }
                 default: {
                     Ui.printInvalidInputWarning();
                 }
