@@ -36,36 +36,38 @@ public class Ui {
     /* TASK-RELATED MESSAGES */
 
     public static void printAllTasks() {
-        if (TaskList.allTasks.size() == 0) {
+        int size = TaskList.allTasks.size();
+        if (size == 0) {
             System.out.println(INDENT + "There are currently no tasks in list!");
             return;
         }
         System.out.println(INDENT + "Here are the tasks currently in your list:");
-        for (int i = 0; i < TaskList.allTasks.size(); i++) {
-            System.out.println(INDENT + (i + 1) + ". " + TaskList.allTasks.get(i));
+        for (int i = 0; i < size; i++) {
+            Ui.printANumberedTask(TaskList.allTasks.get(i),i + 1);
         }
     }
 
-    public static void printNewlyAddedTask(Task task) {
-        System.out.println(INDENT + "Got it. I've added this task: "
-                + System.lineSeparator()
-                + INDENT + INDENT + task
-                + System.lineSeparator()
-                + INDENT + "Now you have " + TaskList.allTasks.size() + " tasks in the list.");
+    public static void printANumberedTask(Task task, int num) {
+        System.out.println(INDENT + (num) + ". " + task);
     }
 
-    public static void printNewlyDeletedTask(Task task) {
-        System.out.println(INDENT + "Noted. I've removed this task: "
-                + System.lineSeparator()
-                + INDENT + INDENT + task
-                + System.lineSeparator()
-                + INDENT + "Now you have " + TaskList.allTasks.size() + " tasks in the list.");
+    public static void printNewlyModifiedTask(Task task, String action) {
+        if (action.equals("done")) {
+            System.out.println(INDENT + "Nice! I've marked this task as done:"
+                               + System.lineSeparator()
+                               + INDENT + "[" + TICK + "] " + task);
+        } else {
+            String desc = action.equals("add") ? "Got it. I've added this task: " : "Noted. I've removed this task: ";
+            System.out.println(INDENT + desc
+                               + System.lineSeparator()
+                               + INDENT + INDENT + task
+                               + System.lineSeparator()
+                               + INDENT + "Now you have " + TaskList.allTasks.size() + " tasks in the list.");
+        }
     }
 
-    public static void printMarkedAsDoneTask(Task task) {
-        System.out.println(INDENT + "Nice! I've marked this task as done:"
-                + System.lineSeparator()
-                + INDENT + "[" + TICK + "] " + task);
+    public static void printMatchesFoundHeader() {
+        System.out.println(Ui.INDENT + "Here are the matching tasks in your list:");
     }
 
     public static void printEmptyDescWarning() {
@@ -77,8 +79,12 @@ public class Ui {
         System.out.println(INDENT + "Sorry, you did not specify a " + tmp + "!");
     }
 
-    public static void printNoNumberWarning() {
-        System.out.println(INDENT + "Please input a number!");
+    public static void printMissingArgWarning(String key) {
+        if(key.equals("num")) {
+            System.out.println(INDENT + "Please input a number!");
+        } else if(key.equals("str")) {
+            System.out.println(INDENT + "Please input a search term!");
+        }
     }
 
     public static void printInvalidInputWarning() {
@@ -89,6 +95,9 @@ public class Ui {
         System.out.println(INDENT + "Sorry, this task does not exist!");
     }
 
+    public static void printNoMatchingTasksWarning() {
+        System.out.println(Ui.INDENT + "There are no matching tasks :(");
+    }
 
     /* WRITE DATA TO FILE*/
 

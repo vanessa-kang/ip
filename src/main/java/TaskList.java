@@ -8,6 +8,7 @@ public class TaskList {
     public TaskList() {
         allTasks = new ArrayList<>();
     }
+
     // overload, if storage.load() is successful
     public TaskList(ArrayList<Task> taskListFromFile) {
         allTasks = taskListFromFile;
@@ -58,15 +59,15 @@ public class TaskList {
             }
         }
         allTasks.add(newTask);
-        Ui.printNewlyAddedTask(newTask);
+        Ui.printNewlyModifiedTask(newTask, "add");
     }
 
     // delete task from allTasks
     public static void deleteTask(int num) {
         try {
-            Task tmpTask = allTasks.get(num - 1);
+            Task deletedTask = allTasks.get(num - 1);
             allTasks.remove(num-1);
-            Ui.printNewlyDeletedTask(tmpTask);
+            Ui.printNewlyModifiedTask(deletedTask, "delete");
         } catch (IndexOutOfBoundsException e) {
             Ui.printTaskDoesNotExistWarning();
         }
@@ -75,9 +76,9 @@ public class TaskList {
     // mark a Task as done
     public static void markTaskAsDone (int num) {
         try {
-            Task tmpTask = allTasks.get(num - 1);
-            tmpTask.setIsDone(true);
-            Ui.printMarkedAsDoneTask(tmpTask);
+            Task doneTask = allTasks.get(num - 1);
+            doneTask.setIsDone(true);
+            Ui.printNewlyModifiedTask(doneTask, "done");
         } catch (IndexOutOfBoundsException e) {
             Ui.printTaskDoesNotExistWarning();
         }
@@ -88,6 +89,27 @@ public class TaskList {
     // not just string rep like what Arrays.toString(strArr) does
     public static String convertToString(String[] strArr) {
         return String.join(" ", strArr);
+    }
+
+    // find tasks that contain a certain keyword
+    public static void findTask(String keyword) {
+        int count = 1;
+        boolean headerFlag = true;
+
+        for (Task task: allTasks) {
+            String strToSearch = task.getTask().toLowerCase();
+            if (strToSearch.contains(keyword.toLowerCase())) {
+                if (headerFlag) {
+                    Ui.printMatchesFoundHeader();
+                    headerFlag = false;
+                }
+                Ui.printANumberedTask(task,count);
+                count++;
+            }
+        }
+        if (headerFlag) {
+            Ui.printNoMatchingTasksWarning();
+        }
     }
 
 }

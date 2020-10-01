@@ -25,7 +25,7 @@ public class Parser {
                     try {
                         TaskList.deleteTask(Integer.parseInt(inputArr[1]));
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        Ui.printNoNumberWarning();
+                        Ui.printMissingArgWarning("num");
                     } catch (NumberFormatException e) {
                         Ui.printInvalidInputWarning();
                     }
@@ -35,7 +35,7 @@ public class Parser {
                     try {
                         TaskList.markTaskAsDone(Integer.parseInt(inputArr[1]));
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        Ui.printNoNumberWarning();
+                        Ui.printMissingArgWarning("num");
                     } catch (NumberFormatException e) {
                         Ui.printInvalidInputWarning();
                     }
@@ -43,6 +43,14 @@ public class Parser {
                 }
                 case("list"): {
                     Ui.printAllTasks();
+                    break;
+                }
+                case("find"): {
+                    try {
+                        TaskList.findTask(inputArr[1]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Ui.printMissingArgWarning("str");
+                    }
                     break;
                 }
                 default: {
