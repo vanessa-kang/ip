@@ -1,11 +1,9 @@
-/**
- * This class contains the task list, and operations to modify it. 
- * (add/delete/mark as done)
- */
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Contains the task list, and operations to modify it - add, delete, mark as done, find.
+ */
 public class TaskList {
 
     public static ArrayList<Task> allTasks;
@@ -119,24 +117,19 @@ public class TaskList {
     }
 
     /**
-     * Helper function to convert a String Array to a String,
-     * instead of a String representation like what Arrays.toString(strArr) does.
+     * This method searches for tasks that contain a certain keyword, and prints them.
+     * If no matching tasks are found, a warning message is printed instead.
      * 
-     * @param strArr String Array to be converted to String
-     * @return String, with spaces as delimiter.
+     * @param key keyword to search for in tasks.
+     * @return Nothing.
      */
-    public static String convertToString(String[] strArr) {
-        return String.join(" ", strArr);
-    }
-
-    // find tasks that contain a certain keyword
-    public static void findTask(String keyword) {
+    public static void findTask(String key) {
         int count = 1;
         boolean headerFlag = true;
 
         for (Task task: allTasks) {
             String strToSearch = task.getTaskDesc().toLowerCase();
-            if (strToSearch.contains(keyword.toLowerCase())) {
+            if (strToSearch.contains(key.toLowerCase())) {
                 if (headerFlag) {
                     Ui.printMatchesFoundHeader();
                     headerFlag = false;
@@ -148,6 +141,17 @@ public class TaskList {
         if (headerFlag) {
             Ui.printNoMatchingTasksWarning();
         }
+    }
+
+    /**
+     * Helper function to convert a String Array to a String,
+     * instead of a String representation like what Arrays.toString(strArr) does.
+     * 
+     * @param strArr String Array to be converted to String
+     * @return String, with spaces as delimiter.
+     */
+    public static String convertToString(String[] strArr) {
+        return String.join(" ", strArr);
     }
 
 }

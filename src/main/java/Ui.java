@@ -1,3 +1,7 @@
+/**
+ * Utility class that handles the UI and printing of messages for the user.
+ */
+
 public class Ui {
 
     public static final String INDENT = "     ";
@@ -8,7 +12,11 @@ public class Ui {
     /* FILE IO-RELATED MESSAGES */
 
     public static void printFileIOStatus(String key) {
-        if(key.equals("load")) {
+        if(key.equals("create")) {
+            System.out.println(INDENT + "Data file not found. Creating file...");
+        } else if (key.equals("exists")) {
+            System.out.println(INDENT + "Data file already exists.");
+        } else if(key.equals("load")) {
             System.out.println(INDENT + "Loading tasks from file...");
         } else if (key.equals("save")) {
             System.out.println(INDENT + "Saving tasks to file...");
@@ -16,7 +24,9 @@ public class Ui {
     }
 
     public static void printFileIOSuccess(String key) {
-        if(key.equals("load")) {
+        if (key.equals("create")) {
+            System.out.println(INDENT + "File successfully created! :)");
+        } else if(key.equals("load")) {
             System.out.println(INDENT + "List successfully loaded! :)");
         } else if (key.equals("save")) {
             System.out.println(INDENT + "Tasks successfully saved! :)");
@@ -24,13 +34,13 @@ public class Ui {
     }
 
     public static void printFileIOError(String key) {
-        if(key.equals("load")) {
+        if (key.equals("create")) {
+            System.out.println(INDENT + "Oops, could not make a new file! :(");
+        } else if(key.equals("load")) {
             System.out.println(INDENT + "Oops, could not load from file! :(\n" +
                                INDENT + "Creating a new empty list...");
-        } else if (key.equals("create")) {
-            System.out.println(INDENT + "Oops, could not make a new file! :(");
         } else if (key.equals("save")) {
-            System.out.println(INDENT + "Shoots, an error occurred while saving your task data. :(");
+            System.out.println(INDENT + "Oops, an error occurred while saving your task data. :(");
         }
     }
 

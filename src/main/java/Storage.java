@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+/**
+ * Utility class that deals with loading data from file at program startup,
+ * and saving data to file at program shutdown.
+ */
 public class Storage {
 
     private final File taskFile;
@@ -24,8 +29,13 @@ public class Storage {
      */
     public ArrayList<Task> load() throws FileNotFoundException {
         if (!taskFile.exists()) {
+            Ui.printFileIOStatus("create");
             createFile();
         }
+        else {
+            Ui.printFileIOStatus("exists");
+        }
+        Ui.printFileIOStatus("load");
         return loadTasksFromFile(taskFile.getPath());
     }
 
@@ -38,6 +48,7 @@ public class Storage {
         }
         try {
             taskFile.createNewFile();
+            Ui.printFileIOSuccess("create");
         } catch (IOException e) {
             Ui.printFileIOError("create");
         }
