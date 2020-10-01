@@ -1,6 +1,5 @@
 /**
- * This class contains the task list,
- * and operations to modify it. 
+ * This class contains the task list, and operations to modify it. 
  * (add/delete/mark as done)
  */
 
@@ -48,8 +47,12 @@ public class TaskList {
             case("deadline"): {
                 try {
                     int pos = Arrays.asList(inputArr).indexOf("/by");
+                    int len = inputArr.length;
+                    if (pos == len - 1) {
+                        throw new IllegalArgumentException();
+                    }
                     String[] descArr = Arrays.copyOfRange(inputArr, 1, pos);
-                    String[] byArr = Arrays.copyOfRange(inputArr,pos+1,inputArr.length);
+                    String[] byArr = Arrays.copyOfRange(inputArr, pos + 1, len);
                     newTask = new Deadline(convertToString(descArr),convertToString(byArr));
                     break;
                 } catch (IllegalArgumentException e) {
@@ -60,8 +63,12 @@ public class TaskList {
             case("event"): {
                 try {
                     int pos = Arrays.asList(inputArr).indexOf("/at");
+                    int len = inputArr.length;
+                    if (pos == len - 1) {
+                        throw new IllegalArgumentException();
+                    }
                     String[] descArr = Arrays.copyOfRange(inputArr, 1, pos);
-                    String[] atArr = Arrays.copyOfRange(inputArr, pos + 1, inputArr.length);
+                    String[] atArr = Arrays.copyOfRange(inputArr, pos + 1, len);
                     newTask = new Event(convertToString(descArr), convertToString(atArr));
                     break;
                 } catch (IllegalArgumentException e) {
