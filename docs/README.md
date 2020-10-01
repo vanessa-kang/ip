@@ -30,7 +30,11 @@ List all tasks in the task list.
 
 Search for tasks containing a keyword.
 
-### 8. Save tasks to file
+### 8. Help
+
+List all available commands.
+
+### 9. Save tasks to file
 
 Save the task list to a .txt file.
 
@@ -38,7 +42,7 @@ Save the task list to a .txt file.
 
 ## Usage
 
-### `todo <task description>` - Add a Todo task.
+### `todo <task description>` - Add a Todo task.
 
 Adds a Todo task to the task list.
 
@@ -54,7 +58,7 @@ Expected outcome:
      Now you have 1 tasks in the list.
 ```
 
-
+<br>
 
 ### `deadline <task description> /by <date>` - Add a Deadline.
 
@@ -72,7 +76,7 @@ Expected outcome:
      Now you have 2 tasks in the list.
 ```
 
-
+<br>
 
 ### `event <task description> /at <date>` - Add an Event.
 
@@ -90,7 +94,7 @@ Expected outcome:
      Now you have 3 tasks in the list.
 ```
 
-
+<br>
 
 ### `done <task number>` - Mark a task as done.
 
@@ -107,7 +111,7 @@ Expected outcome:
      [✓] [E][✓] presentation (at: Monday afternoon)
 ```
 
-
+<br>
 
 ### `delete <task number>` - Delete a task.
 
@@ -125,7 +129,7 @@ Expected outcome:
      Now you have 2 tasks in the list.
 ```
 
-
+<br>
 
 ### `list` - List all tasks.
 
@@ -146,7 +150,7 @@ Expected outcome:
      5. [T][✗] zoom call with tutor
 ```
 
-
+<br>
 
 ### `find <keyword>` - Find tasks containing a given keyword.
 
@@ -161,6 +165,31 @@ Expected outcome:
          Here are the matching tasks in your list:
          1. [T][✗] zoom call with tutor
 
+<br>
+
+### `help` - List all available commands.
+
+Shows a list of all the available commands. 
+
+Example of usage:
+
+`help`
+
+Expected outcome:
+
+```      
+     Currently available commands:
+     • todo <task description> ------------------ Add Todo
+     • deadline <task description> /by <date> --- Add Deadline
+     • event <task description> /by <date> ------ Add Event
+     • done <task number> ----------------------- Mark a task as done
+     • delete <task number> --------------------- Delete a task
+     • list ------------------------------------- List all tasks
+     • find <keyword> --------------------------- Find tasks containing a keyword
+     • bye -------------------------------------- Save and exit program
+```
+
+<br>
 
 ### `bye` - Exit program.
 
