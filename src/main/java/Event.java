@@ -1,3 +1,10 @@
+/**
+ * Represents a task item with a time.
+ * Inherits from Task, and adds one new information field:
+ *   3. at - time of the event..
+ * @see Task
+ */
+
 public class Event extends Task {
 
     // added attribute
@@ -17,8 +24,8 @@ public class Event extends Task {
     }
 
     @Override
-    public String getTask() {
-        return super.getTask() + " (at: " + at + ")";
+    public String getTaskDesc() {
+        return super.getTaskDesc() + " (at: " + at + ")";
     }
 
     @Override

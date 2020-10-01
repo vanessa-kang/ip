@@ -11,7 +11,13 @@ public class Storage {
         taskFile = new File(filePath);
     }
 
-    // read task data from file, return ArrayList
+    /**
+     * This method first checks if the required data file and directories exist, creating them if they do not.
+     * Then, tasks are loaded from the data file into an ArrayList, which is then returned.
+     * 
+     * @return Task list.
+     * @throws FileNotFoundException if data file is found to not exist while attempting to load tasks.
+     */
     public ArrayList<Task> load() throws FileNotFoundException {
         if (!taskFile.exists()) {
             createFile();
@@ -19,9 +25,8 @@ public class Storage {
         return loadTasksFromFile(taskFile.getPath());
     }
 
-    // HELPER FUNCTION
-    // create data file (and associated parent dirs),
-    // if they dont exist
+    /* HELPER FUNCTION for load()
+       create data file (and associated parent dirs), if they don't exist */
     private void createFile() {
         File parentDir = taskFile.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
@@ -34,9 +39,8 @@ public class Storage {
         }
     }
 
-    // HELPER FUNCTION
-    // read previously stored task data from duke.txt file,
-    // when program first starts up
+    /* HELPER FUNCTION for load()
+       read previously stored task data from duke.txt file, when program first starts up */
     private ArrayList<Task> loadTasksFromFile(String filePath) throws FileNotFoundException {
 
         ArrayList<Task> allTasks = new ArrayList<>();
@@ -76,19 +80,24 @@ public class Storage {
         return allTasks;
     }
 
+    /**
+     * This method writes the existing tasks to data file.
+     * 
+     * @return Nothing.
+     * @throws IOException when tasks fail to be saved to file.
+     */
     public void shutDown() {
         try {
             Ui.printSavingToFile();
             writeTasksToFile(taskFile.getPath());
             Ui.printSaveSuccess();
         } catch (IOException e) {
-            e.printStackTrace();
             Ui.printSaveError();
         }
         Ui.printGoodbyeMessage();
     }
 
-    // HELPER FUNCTION
+    // HELPER FUNCTION for shutDown()
     private void writeTasksToFile(String filePath) throws IOException {
         FileWriter fw = new FileWriter(filePath, false); //overwrite file content
 
@@ -102,7 +111,7 @@ public class Storage {
             String isDone = (tmpTask.getIsDone()? "1" : "0");
 
             if (taskType.equals("T")) {
-                String taskDesc = tmpTask.getTask();
+                String taskDesc = tmpTask.getTaskDesc();
                 strToWrite = String.join(">", taskType, isDone, taskDesc);
             } else {
                 String posText = "";
@@ -115,8 +124,8 @@ public class Storage {
                     posText = " (at:";
                     addInfo = ((Event) tmpTask).getAt();
                 }
-                int pos = tmpTask.getTask().indexOf(posText);
-                String taskDesc = tmpTask.getTask().substring(0, pos);
+                int pos = tmpTask.getTaskDesc().indexOf(posText);
+                String taskDesc = tmpTask.getTaskDesc().substring(0, pos);
                 strToWrite = String.join(">", taskType, isDone, taskDesc, addInfo);
             }
             fw.write(strToWrite + System.lineSeparator());

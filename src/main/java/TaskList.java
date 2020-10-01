@@ -1,3 +1,9 @@
+/**
+ * This class contains the task list,
+ * and operations to modify it. 
+ * (add/delete/mark as done)
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,7 +20,16 @@ public class TaskList {
         allTasks = taskListFromFile;
     }
 
-    // add task to allTasks
+    /**
+     * When user adds a Task (Todo/Deadline/Event), 
+     * this method parses the user input and adds it to the Task list.
+     * Task is not added if the Task description is empty,
+     * or if a deadline/time for Deadline/Event is not specified.
+     * 
+     * @param inputArr String Array containing user input for Task to be added.
+     * @return Nothing.
+     * @throws IllegalArgumentException when deadline/time for Deadline/Event is not specified.
+     */
     public static void addTask(String[] inputArr) {
 
         if (inputArr.length == 1) {
@@ -62,7 +77,13 @@ public class TaskList {
         Ui.printNewlyModifiedTask(newTask, "add");
     }
 
-    // delete task from allTasks
+    /**
+     * This method removes a Task.
+     * 
+     * @param num Index + 1 of Task to be deleted.
+     * @return Nothing.
+     * @throws IndexOutOfBoundsException when user attempts to delete a Task that does not exist.
+     */
     public static void deleteTask(int num) {
         try {
             Task deletedTask = allTasks.get(num - 1);
@@ -73,7 +94,13 @@ public class TaskList {
         }
     }
 
-    // mark a Task as done
+    /**
+     * This method marks a Task as done.
+     * 
+     * @param num Index + 1 of Task to be marked as done.
+     * @return Nothing.
+     * @throws IndexOutOfBoundsException when user attempts to mark a Task that does not exist as done.
+     */
     public static void markTaskAsDone (int num) {
         try {
             Task doneTask = allTasks.get(num - 1);
@@ -84,9 +111,13 @@ public class TaskList {
         }
     }
 
-    // HELPER FUNCTION
-    // convert string array to string,
-    // not just string rep like what Arrays.toString(strArr) does
+    /**
+     * Helper function to convert a String Array to a String,
+     * instead of a String representation like what Arrays.toString(strArr) does.
+     * 
+     * @param strArr String Array to be converted to String
+     * @return String, with spaces as delimiter.
+     */
     public static String convertToString(String[] strArr) {
         return String.join(" ", strArr);
     }
