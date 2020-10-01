@@ -36,6 +36,11 @@ public class TaskList {
 
         Task newTask;
 
+        int arrLen = inputArr.length;
+        for (int i = 0; i < arrLen; i++) {
+            inputArr[i] = inputArr[i].toLowerCase();
+        }
+
         switch(inputArr[0]) {
             case("todo"): {
                 String[] descArr = Arrays.copyOfRange(inputArr, 1, inputArr.length);
