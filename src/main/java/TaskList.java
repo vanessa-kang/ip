@@ -33,7 +33,7 @@ public class TaskList {
     public static void addTask(String[] inputArr) {
 
         if (inputArr.length == 1) {
-            Ui.printEmptyDescWarning();
+            Ui.printMissingArgWarning("desc");
             return;
         }
 

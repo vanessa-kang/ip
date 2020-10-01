@@ -7,37 +7,31 @@ public class Ui {
 
     /* FILE IO-RELATED MESSAGES */
 
-    public static void printLoadingFromFile() {
-        System.out.println(INDENT + "Loading tasks from file...");
+    public static void printFileIOStatus(String key) {
+        if(key.equals("load")) {
+            System.out.println(INDENT + "Loading tasks from file...");
+        } else if (key.equals("save")) {
+            System.out.println(INDENT + "Saving tasks to file...");
+        }
     }
 
-    public static void printLoadSuccess() {
-        System.out.println(INDENT + "List successfully loaded! :)");
+    public static void printFileIOSuccess(String key) {
+        if(key.equals("load")) {
+            System.out.println(INDENT + "List successfully loaded! :)");
+        } else if (key.equals("save")) {
+            System.out.println(INDENT + "Tasks successfully saved! :)");
+        }
     }
 
-    public static void printSavingToFile() {
-        System.out.println(INDENT + "Saving tasks to file...");
-    }
-
-    public static void printSaveSuccess() {
-        System.out.println(INDENT + "Tasks successfully saved! :)");
-    }
-
-
-
-    /* FILE IO-RELATED WARNINGS */
-
-    public static void printLoadError() {
-        System.out.println(INDENT + "Oops, could not load from file! :(\n"
-                + INDENT + "Creating a new empty list...");
-    }
-
-    public static void printFileNotCreatedError() {
-        System.out.println(INDENT + "Oops, could not make a new file!");
-    }
-
-    public static void printSaveError() {
-        System.out.println(INDENT + "Shoots, an error occurred while saving your task data. :(");
+    public static void printFileIOError(String key) {
+        if(key.equals("load")) {
+            System.out.println(INDENT + "Oops, could not load from file! :(\n" +
+                               INDENT + "Creating a new empty list...");
+        } else if (key.equals("create")) {
+            System.out.println(INDENT + "Oops, could not make a new file! :(");
+        } else if (key.equals("save")) {
+            System.out.println(INDENT + "Shoots, an error occurred while saving your task data. :(");
+        }
     }
 
 
@@ -63,7 +57,6 @@ public class Ui {
                            "\n" + INDENT + "• list" + " ------------------------------------- " + "List all tasks" +
                            "\n" + INDENT + "• find <keyword>" + " --------------------------- " + "Find tasks containing a keyword" +
                            "\n" + INDENT + "• bye" + " -------------------------------------- " + "Save and exit program"
-        
                           );
     }
 
@@ -110,17 +103,15 @@ public class Ui {
 
     /* TASK-RELATED WARNINGS */
 
-    public static void printEmptyDescWarning() {
-        System.out.println(INDENT + "Oops, the description field cannot be empty!");
-    }
-
     public static void printNotSpecifiedWarning(String taskType) {
         String tmp = (taskType.equals("D") ? "deadline" : "time");
         System.out.println(INDENT + "Sorry, you did not specify a " + tmp + "!");
     }
 
     public static void printMissingArgWarning(String key) {
-        if(key.equals("num")) {
+        if(key.equals("desc")) {
+            System.out.println(INDENT + "Oops, the description field cannot be empty!");
+        } else if(key.equals("num")) {
             System.out.println(INDENT + "Please input a number!");
         } else if(key.equals("str")) {
             System.out.println(INDENT + "Please input a search term!");

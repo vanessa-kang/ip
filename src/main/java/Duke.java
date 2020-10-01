@@ -12,11 +12,11 @@ public class Duke {
         storage = new Storage(filePath);
 
         try {
-            ui.printLoadingFromFile();
+            ui.printFileIOStatus("load");
             tasks = new TaskList(storage.load()); // try loading tasks from file
-            ui.printLoadSuccess();
+            ui.printFileIOSuccess("load");
         } catch (FileNotFoundException e) {
-            ui.printLoadError(); // print error msg
+            ui.printFileIOError("load"); // print load error msg
             tasks = new TaskList(); // give up loading from file, just init new ArrayList
         }
     }

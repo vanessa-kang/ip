@@ -35,7 +35,7 @@ public class Storage {
         try {
             taskFile.createNewFile();
         } catch (IOException e) {
-            Ui.printFileNotCreatedError();
+            Ui.printFileIOError("create");
         }
     }
 
@@ -88,11 +88,11 @@ public class Storage {
      */
     public void shutDown() {
         try {
-            Ui.printSavingToFile();
+            Ui.printFileIOStatus("save");
             writeTasksToFile(taskFile.getPath());
-            Ui.printSaveSuccess();
+            Ui.printFileIOSuccess("save");
         } catch (IOException e) {
-            Ui.printSaveError();
+            Ui.printFileIOError("save");
         }
         Ui.printGoodbyeMessage();
     }
