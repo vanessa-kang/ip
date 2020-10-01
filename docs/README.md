@@ -186,6 +186,7 @@ Expected outcome:
      • delete <task number> --------------------- Delete a task
      • list ------------------------------------- List all tasks
      • find <keyword> --------------------------- Find tasks containing a keyword
+     • help ------------------------------------- Show all available commands
      • bye -------------------------------------- Save and exit program
 ```
 

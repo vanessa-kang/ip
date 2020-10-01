@@ -56,6 +56,7 @@ public class Ui {
                            "\n" + INDENT + "• delete <task number>" + " --------------------- " + "Delete a task" +
                            "\n" + INDENT + "• list" + " ------------------------------------- " + "List all tasks" +
                            "\n" + INDENT + "• find <keyword>" + " --------------------------- " + "Find tasks containing a keyword" +
+                           "\n" + INDENT + "• help" + " ------------------------------------- " + "Show all available commands" +
                            "\n" + INDENT + "• bye" + " -------------------------------------- " + "Save and exit program"
                           );
     }
