@@ -128,7 +128,7 @@ public class TaskList {
         boolean headerFlag = true;
 
         for (Task task: allTasks) {
-            String strToSearch = task.getTask().toLowerCase();
+            String strToSearch = task.getTaskDesc().toLowerCase();
             if (strToSearch.contains(keyword.toLowerCase())) {
                 if (headerFlag) {
                     Ui.printMatchesFoundHeader();
