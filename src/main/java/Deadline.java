@@ -1,3 +1,10 @@
+/**
+ * Represents a task item with a deadline.
+ * Inherits from Task, and adds one new information field:
+ *   3. by - deadline for the task.
+ * @see Task
+ */
+
 public class Deadline extends Task {
 
     // added attribute
@@ -17,8 +24,8 @@ public class Deadline extends Task {
     }
 
     @Override
-    public String getTask() {
-        return super.getTask() + " (by: " + by + ")";
+    public String getTaskDesc() {
+        return super.getTaskDesc() + " (by: " + by + ")";
     }
 
     @Override

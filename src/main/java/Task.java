@@ -1,17 +1,24 @@
+/**
+ * Represents a task item, with two information fields:
+ *   1. isDone - whether the task is completed or not.
+ *   2. taskDesc - description of the task.
+ * Task is the parent class that Todo, Deadline and Event inherits from.
+ */
+
 public class Task {
     private boolean isDone;
     private String taskDesc;
 
     public Task(String desc) {
-        this.isDone = false;
-        setTask(desc);
+        setIsDone(false);
+        setTaskDesc(desc);
     }
 
-    public void setTask(String desc) {
+    public void setTaskDesc(String desc) {
         taskDesc = desc;
     }
 
-    public String getTask() {
+    public String getTaskDesc() {
         return this.taskDesc;
     }
 

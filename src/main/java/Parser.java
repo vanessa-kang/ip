@@ -2,7 +2,14 @@ import java.util.Scanner;
 
 public class Parser {
 
-    // parse user input in REPL loop
+
+    /**
+     * This method parses user input in a REPL loop.
+     * 
+     * @return Nothing.
+     * @throws ArrayIndexOutOfBoundsException when a Task number is not provided for delete or done.
+     * @throws NumberFormatException when aa non-numerical Task number is provided to delete or done.
+     */
     public static void parseUserInput() {
         Scanner line = new Scanner(System.in);
         String input = line.nextLine();
