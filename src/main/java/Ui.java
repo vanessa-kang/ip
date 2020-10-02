@@ -114,11 +114,6 @@ public class Ui {
 
     /* TASK-RELATED WARNINGS */
 
-    public static void printNotSpecifiedWarning(String taskType) {
-        String tmp = (taskType.equals("D") ? "deadline" : "time");
-        System.out.println(INDENT + "Sorry, you did not specify a " + tmp + "!");
-    }
-
     public static void printMissingArgWarning(String key) {
         if(key.equals("desc")) {
             System.out.println(INDENT + "Oops, the description field cannot be empty!");
@@ -126,6 +121,8 @@ public class Ui {
             System.out.println(INDENT + "Please input a number!");
         } else if(key.equals("str")) {
             System.out.println(INDENT + "Please input a search term!");
+        } else if(key.equals("date")) {
+            System.out.println(INDENT + "Sorry, you did not specify a date!");
         }
     }
 

@@ -29,53 +29,53 @@ public class TaskList {
      */
     public static void addTask(String[] inputArr) {
 
-        if (inputArr.length == 1) {
+        int arrLen = inputArr.length;
+
+        if (arrLen == 1) {
             Ui.printMissingArgWarning("desc");
             return;
         }
 
-        Task newTask;
-
-        int arrLen = inputArr.length;
+        // convert user input to lowercase
         for (int i = 0; i < arrLen; i++) {
             inputArr[i] = inputArr[i].toLowerCase();
         }
 
+        Task newTask;
+
         switch(inputArr[0]) {
             case("todo"): {
-                String[] descArr = Arrays.copyOfRange(inputArr, 1, inputArr.length);
+                String[] descArr = Arrays.copyOfRange(inputArr, 1, arrLen);
                 newTask = new Todo((convertToString(descArr)));
                 break;
             }
             case("deadline"): {
                 try {
                     int pos = Arrays.asList(inputArr).indexOf("/by");
-                    int len = inputArr.length;
-                    if (pos == len - 1) {
+                    if (pos == arrLen - 1) {
                         throw new IllegalArgumentException();
                     }
                     String[] descArr = Arrays.copyOfRange(inputArr, 1, pos);
-                    String[] byArr = Arrays.copyOfRange(inputArr, pos + 1, len);
+                    String[] byArr = Arrays.copyOfRange(inputArr, pos + 1, arrLen);
                     newTask = new Deadline(convertToString(descArr),convertToString(byArr));
                     break;
                 } catch (IllegalArgumentException e) {
-                    Ui.printNotSpecifiedWarning("D");
+                    Ui.printMissingArgWarning("date");
                     return;
                 }
             }
             case("event"): {
                 try {
                     int pos = Arrays.asList(inputArr).indexOf("/at");
-                    int len = inputArr.length;
-                    if (pos == len - 1) {
+                    if (pos == arrLen - 1) {
                         throw new IllegalArgumentException();
                     }
                     String[] descArr = Arrays.copyOfRange(inputArr, 1, pos);
-                    String[] atArr = Arrays.copyOfRange(inputArr, pos + 1, len);
+                    String[] atArr = Arrays.copyOfRange(inputArr, pos + 1, arrLen);
                     newTask = new Event(convertToString(descArr), convertToString(atArr));
                     break;
                 } catch (IllegalArgumentException e) {
-                    Ui.printNotSpecifiedWarning("E");
+                    Ui.printMissingArgWarning("date");
                     return;
                 }
             }
